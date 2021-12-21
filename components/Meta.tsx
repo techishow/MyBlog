@@ -1,11 +1,11 @@
 import Head from "next/head";
 
 const Meta = ({
-  title = "function()",
-  name = "Arash Nur Iman",
-  description = "Arash's blog to share little snippets of everything — code, experiences, and other fascinating stories to share.",
-  url = "https://blog.arash.codes",
-  image = "https://blog.arash.codes/seo.jpg",
+  title = "AMSI()",
+  name = "THECODER",
+  description = "Thecoder blog to share little snippets of everything — code, experiences, and good tools .",
+  url = "https://amsitech.live",
+  image = "",
   isBlogPost = false,
 }) => (
   <Head>
