@@ -7,28 +7,28 @@ const socials = [
     icon: (
       <SiGithub className="w-full h-full transition-opacity duration-200 hover:opacity-75" />
     ),
-    link: "https://github.com/arashnrim",
+    link: "https://github.com/techishow",
   },
   {
     name: "LinkedIn",
     icon: (
       <SiLinkedin className="w-full h-full transition-opacity duration-200 hover:opacity-75" />
     ),
-    link: "https://linkedin.com/in/arashnrim",
+    link: "https://linkedin.com/",
   },
   {
     name: "Figma",
     icon: (
       <SiFigma className="w-full h-full transition-opacity duration-200 hover:opacity-75" />
     ),
-    link: "https://figma.com/@arashnrim",
+    link: "https://figma.com/",
   },
   {
     name: "email",
     icon: (
       <FaEnvelope className="w-full h-full transition-opacity duration-200 hover:opacity-75" />
     ),
-    link: "mailto:hello@arashnrim.me",
+    link: "mailto:amsi@tuta.io",
   },
 ];
 
