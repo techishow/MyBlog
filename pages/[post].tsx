@@ -49,7 +49,7 @@ const Post: NextPage<PostProps> = ({ frontmatter, code, slug }: PostProps) => {
             </span>
           )}
         </section>
-        <article className="py-10 prose prose-lg px-14 lg:py-20 sm:prose-xl md:prose-2xl max-w-none md:px-36 lg:px-64 xl:px-72 2xl:px-80">
+        <article className="py-10 prose prose-lg px-14 lg:py-20 sm:prose-xl md:prose-xl max-w-none md:px-36 lg:px-64 xl:px-72 xl:px-80">
           <RenderedComponent />
         </article>
       </Layout>
